@@ -11,7 +11,7 @@ def load_books(book_list, path_name):
             genre = book_data[3]
             available = book_data[4]
             new_book = b.Book(isbn, title, author, int(genre), available.lower() == 'true')
-            book_list.append(new_book)
+            book_list.append([new_book])
             num_books += 1
     print('Book catalog has been loaded.')
     return num_books
@@ -53,4 +53,5 @@ def main():
     print_menu(menu_heading,menu_options)
 
 main()
+
 

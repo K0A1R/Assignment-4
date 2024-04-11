@@ -23,6 +23,8 @@ class Book():
         self.__author = author
     def set_genre(self,genre):
         self.__genre = genre
+    def set_available(self,available):
+        self.__available = available
     def get_genre_name(self):
         match self.__genre:
             case 0:
@@ -69,9 +71,4 @@ class Book():
         self.__available = True
 
     def __str__(self):
-        return (f'{self.__isbn} {self.__title} {self.__author} {self.__genre} {self.get_availability()}')
-
-book1 = Book('978-0060000000','To Kill a Mockingbird','Harper Lee',3,True) #REMOVE
-print(book1.get_genre_name()) #REMOVE
-print(book1.__str__()) #REMOVE
-
+        return (f'{self.__isbn},{self.__title},{self.__author},{self.__genre},{self.get_availability()}')

@@ -18,9 +18,3 @@ menu_options = {
     0: 'Exit the system'
 }
 print_menu(menu_heading,menu_options)
-
-
-
-
-
-

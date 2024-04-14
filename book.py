@@ -33,22 +33,22 @@ class Book():
             case 1:
                 self.__genre = 'Mystery'
                 return self.__genre
-            case 3:
+            case 2:
                 self.__genre = 'Science Fiction'
                 return self.__genre
-            case 4:
+            case 3:
                 self.__genre = 'Thriller'
                 return self.__genre
-            case 5:
+            case 4:
                 self.__genre = 'Young Adult'
                 return self.__genre
-            case 6:
+            case 5:
                 self.__genre = "Children's Fiction"
                 return self.__genre
-            case 7:
+            case 6:
                 self.__genre = 'Self-help'
                 return self.__genre
-            case 8:
+            case 7:
                 self.__genre = 'Fantasy'
                 return self.__genre
             case 8:
@@ -57,6 +57,8 @@ class Book():
             case 9:
                 self.__genre = 'Poetry'
                 return self.__genre
+            case _:
+                return ('None')
     
     def get_availability(self):
         if (self.__available == True):

@@ -11,7 +11,7 @@ def load_books(book_list, path_name):
             genre = book_data[3]
             available = book_data[4]
             new_book = b.Book(isbn, title, author, int(genre), available.lower() == 'true')
-            book_list.append([new_book])
+            book_list.append(new_book)
             num_books += 1
     print('Book catalog has been loaded.')
     return num_books
@@ -29,15 +29,55 @@ def print_menu(menu_heading,menu_options):
 
 def search_books(book_list,search_string):
     search_result = []
-    for b in book_list:
-        for book in b:
-            if (search_string in book.get_isbn() or search_string.lower() in book.get_title().lower() or 
-                search_string.lower() in book.get_author().lower() or search_string.lower() in book.get_genre_name().lower()):
-                print(book)
-                search_result.append(book)
+    for book in book_list:
+        if (search_string in book.get_isbn() or search_string.lower() in book.get_title().lower() or 
+            search_string.lower() in book.get_author().lower() or search_string.lower() in book.get_genre_name().lower()):
+            print(book)
+            search_result.append(book)
     if (search_result == []):
         print('No matching books found.')
     return search_result
+
+
+def find_book_by_isbn(book_list,isbn):
+    book_not_found = True
+    for book in book_list:
+        if(isbn == book.get_isbn()):
+            book_not_found = False
+            return book_list.index(book)
+    if(book_not_found):
+        return -1    
+        
+def borrow_book(book_list):
+    book_index = find_book_by_isbn(book_list,option)  
+    if(book_index!= -1):
+        if(book_list[book_index].get_available()):
+            book_list[book_index].borrow_it()
+    else:
+        print('No book found with this ISBN')
+
+def return_book(book_list):
+    book_index = find_book_by_isbn(book_list,option)  
+    if(book_index!= -1):
+        print(book_list[book_index].get_available())
+        if(not book_list[book_index].get_available()):
+            print(f'"{book_list[book_index].get_title()}" with ISBN {book_list[book_index].get_isbn()} succesfully returned')
+            print('before :', book_list[book_index].get_available())
+            book_list[book_index].return_it()
+            print('after :', book_list[book_index].get_available())
+        else:
+            print(f'"{book_list[book_index].get_title()}" with ISBN {book_list[book_index].get_isbn()} is not currently borrowed')
+    else:
+        print('No book found with that ISBN')
+
+def remove_book(book_list):
+    book_index = find_book_by_isbn(book_list,option)  
+    if(book_index!= -1):
+        print('before:', book_list)
+        del book_list[book_index]
+        print('after:', book_list)
+    else:
+        print('No book found with this ISBN.')
 
 def main():
     book_list = []
@@ -56,5 +96,10 @@ def main():
     print_menu(menu_heading,menu_options)
 
 main()
-
-
+book_list = []
+path_name = input('Enter book catalog filename: ')
+option = input('Enter the ISBN: ')
+load_books(book_list,path_name)
+borrow_book(book_list)
+return_book(book_list)
+remove_book(book_list)

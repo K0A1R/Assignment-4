@@ -266,7 +266,6 @@ def main():
     book_list = []
     path_name = input('Enter book catalog filename: ')
     while not os.path.exists(path_name):
-        print('File not found.')
         path_name = input('File not found. Re-enter book catalog filename: ')
     load_books(book_list, path_name)
       

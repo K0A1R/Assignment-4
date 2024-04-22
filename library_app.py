@@ -174,12 +174,12 @@ def borrow_book(book_list):
     book_index = find_book_by_isbn(book_list,isbn) 
     if(book_index!= -1):
         if(book_list[book_index].get_available()):
-            print(f'"{book_list[book_index].get_title()}" with ISBN {book_list[book_index].get_isbn()} succesfully borrowed')
+            print(f'"{book_list[book_index].get_title()}" with ISBN {book_list[book_index].get_isbn()} succesfully borrowed.')
             book_list[book_index].borrow_it()
         else:
-            print(f'"{book_list[book_index].get_title()}" with ISBN {book_list[book_index].get_isbn()} is not currently available')
+            print(f'"{book_list[book_index].get_title()}" with ISBN {book_list[book_index].get_isbn()} is not currently available.')
     else:
-        print('No book found with that ISBN')
+        print('No book found with that ISBN.')
 
 '''
 Function Name: return_book
@@ -193,12 +193,12 @@ def return_book(book_list):
     book_index = find_book_by_isbn(book_list,isbn)  
     if(book_index!= -1):
         if(not book_list[book_index].get_available()):
-            print(f'"{book_list[book_index].get_title()}" with ISBN {book_list[book_index].get_isbn()} succesfully returned')
+            print(f'"{book_list[book_index].get_title()}" with ISBN {book_list[book_index].get_isbn()} succesfully returned.')
             book_list[book_index].return_it()
         else:
-            print(f'"{book_list[book_index].get_title()}" with ISBN {book_list[book_index].get_isbn()} is not currently borrowed')
+            print(f'"{book_list[book_index].get_title()}" with ISBN {book_list[book_index].get_isbn()} is not currently borrowed.')
     else:
-        print('No book found with that ISBN')
+        print('No book found with that ISBN.')
 
 '''
 Function Name: remove_book
@@ -262,13 +262,18 @@ def save_books(book_list, path_name):
         return num_of_books
 
 def main():
+    #Book list is initialized and user enters book catalog filename which is validated
     print('Starting the system ...')
     book_list = []
     path_name = input('Enter book catalog filename: ')
+
+    #while not statement used to check if file exists
     while not os.path.exists(path_name):
         path_name = input('File not found. Re-enter book catalog filename: ')
     load_books(book_list, path_name)
-      
+
+    #Menu heading formatted string is stored in menu_heading variable
+    #Menu options are stored in menu_options variable as a dictionary
     menu_heading = f"\nReader's guild library - Main Menu\n{'='*34}"
     menu_options = {
         1: 'Search for books',
@@ -277,31 +282,51 @@ def main():
         0: 'Exit the system'
     }
 
+    #Menu heading and menu options are displayed using the print_menu() function
+    #User selection is stored in the menu_selection variable
     menu_selection = print_menu(menu_heading,menu_options)
+
+    #while statement used to validate selection options that exist in both the main menu or librarian menu
     while main_menu or librarian_menu:
+        #if user selects option 0 the system will print appropriate message and save the book list to the CSV file, then exit the program
         if (menu_selection == 0):
             print(f'\n-- Exit the system --'
                   '\nBook catalogue has been saved.'
                   '\nGood Bye!')
+            #save_books() used to save book list to CSV file
             save_books(book_list, path_name)
+            #exit() exits the program
             exit()
+        #if user selects option 1 they will be able to search the book list for any book that has information which matches their inputted search value
         if (menu_selection == 1):
             print(f'\n-- Search for Books --')
             search_string = input('Enter search value: ')
+            #User search performed by search_books() function and stored in searched_books variable
             searched_books = search_books(book_list,search_string)
+            #if statement used to validate whether searched_books contains any items which match the user search
             if(searched_books != []):
                 print_books(searched_books)
+            #Menu is displayed again for the user to make another selection
             menu_selection = print_menu(menu_heading,menu_options)
+        #if user selects option 2 they will have the option of borrowing a book if it is available
         if (menu_selection == 2):
             print(f'\n-- Borrow a book --')
+            #The user is able to attempt to borrow a book using the borrow_book() function
             borrow_book(book_list)
+            #Menu is displayed again for the user to make another selection
             menu_selection = print_menu(menu_heading,menu_options)
+        #if user selects option 3 they will be given the option to return a book
         if (menu_selection == 3):
             print(f'\n-- Return a book --')
+            #The user is able to attempt to return a book using the return_book() function
             return_book(book_list)
+            #Menu is displayed again for the user to make another selection
             menu_selection = print_menu(menu_heading,menu_options)
+        #if the user enters 2130 they are directed to the Librarian Menu
         if (menu_selection == 2130):
+            #while statement used to display correct menu while user is in Librarian Menu
             while librarian_menu:
+                #Librarian Menu heading and menu selection options are stored in the variables menu_heading and menu_options
                 menu_heading = f"\nReader's guild library - Librarian Menu\n{'='*34}"
                 menu_options = {
                     1: 'Search for books',
@@ -312,31 +337,47 @@ def main():
                     6: 'Print catalog',
                     0: 'Exit the system'
                 }
+                #Librarian Menu displayed to user with menu options
                 menu_selection = print_menu(menu_heading,menu_options)
+                #if user selects option 0 the system will print appropriate message and save the book list to the CSV file, then exit the program
                 if (menu_selection == 0):
                     print(f'\n-- Exit the system --'
                   '\nBook catalogue has been saved.'
                   '\nGood Bye!')
+                    #save_books() used to save book list to CSV file
                     save_books(book_list, path_name)
+                    #exit() exits the program
                     exit()
+                #if user selects option 1 they will be able to search the book list for any book that has information which matches their inputted search value
                 if (menu_selection == 1):
                     print(f'\n-- Search for Books --')
                     search_string = input('Enter search value: ')
+                    #Books with values that match the user inputted search value are validated through the search_books() function and displayed using the print_books() function
                     print_books(search_books(book_list,search_string))
+                #if user selects option 2 they will have the option of borrowing a book if it is available
                 if (menu_selection == 2):
                     print(f'\n-- Borrow a book --')
+                    #The user is able to attempt to borrow a book using the borrow_book() function
                     borrow_book(book_list)
+                #if user selects option 3 they will be given the option to return a book
                 if (menu_selection == 3):
                     print(f'\n-- Return a book --')
+                    #The user is able to attempt to return a book using the return_book() function
                     return_book(book_list)
+                #if user selects option 4 they will be given the option to add a book to the book list by providing all necessary information 
                 if(menu_selection == 4):
                     print(f'\n-- Add a book --')
+                    #A new book is added to the book list by the user using the add_book() function
                     add_book(book_list) 
+                #if user selects option 5 they will be given the option to remove a book from the book list
                 if(menu_selection == 5):
                     print(f'\n-- Remove a book --')
+                    #The program will remove a book from the book list using the remove_book function and receiving user input
                     remove_book(book_list) 
+                #if user selects option 6 the complete book list will be displayed 
                 if(menu_selection == 6):
                     print(f'\n-- Print book catalog --')
+                    #The book list is displayed to the user using the print_books() function
                     print_books(book_list) 
       
 main()
